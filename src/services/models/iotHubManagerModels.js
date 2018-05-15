@@ -2,7 +2,7 @@
 
 import update from 'immutability-helper';
 import dot from 'dot-object';
-import { camelCaseReshape, getItems } from 'utilities';
+import { camelCaseReshape, getItems, reshape } from 'utilities';
 import uuid from 'uuid/v4';
 
 // Contains methods for converting service response
@@ -167,3 +167,8 @@ export const toNewDeviceRequestModel = ({
         }
   };
 }
+
+export const toDevicePropertiesModel = (response = {}) => reshape(response, {
+  'Reported': 'reported',
+  'Tags': 'tags'
+});

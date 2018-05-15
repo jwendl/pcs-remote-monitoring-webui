@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { ConfigService } from 'services';
+import { IoTHubManagerService } from 'services';
 import { Btn } from 'components/shared';
 import { svgs, LinkedComponent } from 'utilities';
 import Flyout from 'components/shared/flyout';
@@ -32,7 +32,7 @@ export class ManageDeviceGroups extends LinkedComponent {
   }
 
   componentDidMount() {
-    this.subscription = ConfigService.getDeviceGroupFilters()
+    this.subscription = IoTHubManagerService.getDeviceProperties()
       .subscribe(
         ({ tags, reported }) => {
           const filterOptions = [
