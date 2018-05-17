@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import Config from 'app.config';
 import { stringify } from 'query-string';
 import { HttpClient } from './httpClient';
+import update from 'immutability-helper';
 import { toDevicesModel, toDeviceModel, toJobsModel, toJobStatusModel, toDevicePropertiesModel } from './models';
 
 const ENDPOINT = Config.serviceUrls.iotHubManager;
@@ -49,11 +50,19 @@ export class IoTHubManagerService {
       .map(() => ({ deletedDeviceId: id }));
   }
 
-    /** Returns the account's device group filters */
-    static getDeviceProperties() {
-      return Observable.forkJoin(
-      HttpClient.get(`${ENDPOINT}deviceProperties`).map(toDevicePropertiesModel),
-      HttpClient.get(`${Config.serviceUrls.deviceSimulation}deviceProperties`).map(toDevicePropertiesModel),
-    ).map(([ iotProperties, simulationProperties ]) => [ ...iotProperties, ...simulationProperties ]);
-    }
+  /** Returns the account's device group filters */
+  static getDeviceProperties() {
+    return Observable.merge(
+      HttpClient.get(`${ENDPOINT}deviceProperties`),
+      HttpClient.get(`${Config.serviceUrls.deviceSimulation}deviceProperties`)
+    )
+      .map(toDevicePropertiesModel)
+      .reduce(
+        (acc, props) => update(acc, {
+          reported: { $push: props.reported || [] },
+          tags: { $push: props.tags || [] }
+        }),
+        { reported: [], tags: [] }
+      );
+  }
 }
