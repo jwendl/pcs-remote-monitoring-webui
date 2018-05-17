@@ -53,8 +53,8 @@ export class IoTHubManagerService {
   /** Returns the account's device group filters */
   static getDeviceProperties() {
     return Observable.merge(
-      HttpClient.get(`${ENDPOINT}deviceProperties`),
-      HttpClient.get(`${Config.serviceUrls.deviceSimulation}deviceProperties`)
+      HttpClient.get(`${ENDPOINT}deviceproperties`),
+      HttpClient.get(`${Config.serviceUrls.deviceSimulation}deviceproperties`)
     )
       .map(toDevicePropertiesModel)
       .reduce(
