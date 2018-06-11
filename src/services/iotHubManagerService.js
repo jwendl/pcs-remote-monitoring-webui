@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import Config from 'app.config';
 import { stringify } from 'query-string';
 import { HttpClient } from './httpClient';
-import update from 'immutability-helper';
 import { toDevicesModel, toDeviceModel, toJobsModel, toJobStatusModel, toDevicePropertiesModel } from './models';
 
 const ENDPOINT = Config.serviceUrls.iotHubManager;
