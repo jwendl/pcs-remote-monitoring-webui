@@ -53,17 +53,10 @@ export class IoTHubManagerService {
   /** Returns the account's device group filters */
   static getDeviceProperties() {
     return Observable
-      .merge(
+      .forkJoin(
         HttpClient.get(`${ENDPOINT}deviceproperties`),
-        HttpClient.get(`${Config.serviceUrls.deviceSimulation}deviceproperties`)
-      )
-      .map(toDevicePropertiesModel)
-      .reduce(
-        (acc, props) => update(acc, {
-          reported: { $push: props.reported || [] },
-          tags: { $push: props.tags || [] }
-        }),
-        { reported: [], tags: [] }
-      );
+        HttpClient.get(`${Config.serviceUrls.deviceSimulation}devicemodelproperties`)
+    )
+    .map(([iotResponse, dsResponse]) => toDevicePropertiesModel(iotResponse, dsResponse));
   }
 }

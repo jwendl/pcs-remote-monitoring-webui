@@ -168,7 +168,15 @@ export const toNewDeviceRequestModel = ({
   };
 }
 
-export const toDevicePropertiesModel = (response = {}) => reshape(response, {
-  'Reported': 'reported',
-  'Tags': 'tags'
-});
+export const toDevicePropertiesModel = (iotResponse, dsResponse) => {
+  const iotModel = reshape(iotResponse, {
+    'Reported': 'reported',
+    'Tags': 'tags'
+  });
+  const dsReported = getItems(dsResponse).map(({ Id }) => Id);
+  const reportedPropertiesUnion = new Set([...iotModel.reported, ...dsReported])
+  return {
+      ...iotModel,
+      reported: [...reportedPropertiesUnion]
+  };
+};
