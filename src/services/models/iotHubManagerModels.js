@@ -2,7 +2,7 @@
 
 import update from 'immutability-helper';
 import dot from 'dot-object';
-import { camelCaseReshape, getItems, reshape } from 'utilities';
+import { camelCaseReshape, getItems } from 'utilities';
 import uuid from 'uuid/v4';
 
 // Contains methods for converting service response
@@ -169,14 +169,10 @@ export const toNewDeviceRequestModel = ({
 }
 
 export const toDevicePropertiesModel = (iotResponse, dsResponse) => {
-  const iotModel = reshape(iotResponse, {
-    'Reported': 'reported',
-    'Tags': 'tags'
-  });
   const dsReported = getItems(dsResponse).map(({ Id }) => Id);
-  const reportedPropertiesUnion = new Set([...iotModel.reported, ...dsReported])
+  const reportedPropertiesUnion = new Set([...iotResponse.Reported, ...dsReported])
   return {
-      ...iotModel,
+      tags: iotResponse.Tags,
       reported: [...reportedPropertiesUnion]
   };
 };
