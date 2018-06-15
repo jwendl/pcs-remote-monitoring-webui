@@ -32,7 +32,7 @@ export class ManageDeviceGroups extends LinkedComponent {
   componentDidMount() {
     this.subscription = IoTHubManagerService.getDeviceProperties()
       .subscribe(
-        ({ items }) => {
+        (items) => {
           const filterOptions = [
             ...items.map(item => toOption(item))
           ];
@@ -71,9 +71,9 @@ export class ManageDeviceGroups extends LinkedComponent {
             this.state.addNewDeviceGroup || !!this.state.selectedDeviceGroup
               ? <DeviceGroupForm {...this.props} {...this.state} cancel={this.closeForm} />
               : <div>
-                  <Btn className="add-btn" svg={svgs.plus} onClick={this.toggleNewFilter}>{t('deviceGroupsFlyout.create')}</Btn>
-                  { deviceGroups.length > 0 && <DeviceGroups {...this.props} onEditDeviceGroup={this.onEditDeviceGroup}/> }
-                </div>
+                <Btn className="add-btn" svg={svgs.plus} onClick={this.toggleNewFilter}>{t('deviceGroupsFlyout.create')}</Btn>
+                {deviceGroups.length > 0 && <DeviceGroups {...this.props} onEditDeviceGroup={this.onEditDeviceGroup} />}
+              </div>
           }
         </Flyout.Content>
       </Flyout.Container>

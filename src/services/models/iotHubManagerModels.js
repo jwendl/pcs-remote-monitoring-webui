@@ -169,5 +169,5 @@ export const toNewDeviceRequestModel = ({
 }
 
 export const toDevicePropertiesModel = (iotResponse, dsResponse) => {
-  return new Set([...getItems(iotResponse), ...getItems(dsResponse)]);
+  return [...(new Set([...getItems(iotResponse), ...getItems(dsResponse)]))];
 };
