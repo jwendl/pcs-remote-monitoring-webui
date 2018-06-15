@@ -53,8 +53,8 @@ export class IoTHubManagerService {
   static getDeviceProperties() {
     return Observable
       .forkJoin(
-        HttpClient.get(`${ENDPOINT}deviceproperties`),
-        HttpClient.get(`${Config.serviceUrls.deviceSimulation}devicemodelproperties`)
+        HttpClient.get(`${ENDPOINT}deviceProperties`),
+        HttpClient.get(`${Config.serviceUrls.deviceSimulation}deviceModelProperties`)
       )
       .map(([iotResponse, dsResponse]) => toDevicePropertiesModel(iotResponse, dsResponse));
   }

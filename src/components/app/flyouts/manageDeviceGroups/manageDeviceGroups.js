@@ -11,8 +11,6 @@ import DeviceGroups from './views/deviceGroups';
 
 import './manageDeviceGroups.css';
 
-const tagPrefix = 'tags.';
-const reportedPrefix = 'properties.reported.';
 const toOption = (value, label) => ({
   label: label || value,
   value
@@ -34,10 +32,9 @@ export class ManageDeviceGroups extends LinkedComponent {
   componentDidMount() {
     this.subscription = IoTHubManagerService.getDeviceProperties()
       .subscribe(
-        ({ tags, reported }) => {
+        ({ items }) => {
           const filterOptions = [
-            ...tags.map(tag => toOption(`${tagPrefix}${tag}`)),
-            ...reported.map(prop => toOption(`${reportedPrefix}${prop}`))
+            ...items.map(item => toOption(item))
           ];
           this.setState({ filterOptions });
         },

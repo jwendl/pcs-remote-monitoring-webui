@@ -169,10 +169,5 @@ export const toNewDeviceRequestModel = ({
 }
 
 export const toDevicePropertiesModel = (iotResponse, dsResponse) => {
-  const dsReported = getItems(dsResponse).map(({ Id }) => Id);
-  const reportedPropertiesUnion = new Set([...iotResponse.Reported, ...dsReported])
-  return {
-      tags: iotResponse.Tags,
-      reported: [...reportedPropertiesUnion]
-  };
+  return new Set([...getItems(iotResponse), ...getItems(dsResponse)]);
 };
