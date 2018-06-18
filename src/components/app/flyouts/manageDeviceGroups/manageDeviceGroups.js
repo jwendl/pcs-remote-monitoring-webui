@@ -33,9 +33,7 @@ export class ManageDeviceGroups extends LinkedComponent {
     this.subscription = IoTHubManagerService.getDeviceProperties()
       .subscribe(
         (items) => {
-          const filterOptions = [
-            ...items.map(item => toOption(item))
-          ];
+          const filterOptions = items.map(item => toOption(item));
           this.setState({ filterOptions });
         },
         filtersError => this.setState({ filtersError })
